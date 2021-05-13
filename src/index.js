@@ -5,7 +5,7 @@
  * @param {object} context Current browsing context.
  * @return {Promise} Promise, which when fulfilled, resolves with markup, scripts, and styles.
  */
-export const getAdminBar = async ( siteurl, context ) => {
+const getAdminBar = async ( siteurl, context ) => {
 	const response = await fetch(
 		`${siteurl}/wp-admin/admin-ajax.php?action=admin_bar_render`,
 		{ credentials: 'include' }
@@ -20,7 +20,7 @@ export const getAdminBar = async ( siteurl, context ) => {
  * @param adminBarData object containing markup, scripts, and styles.
  * @return void
  */
-export const render = adminBarData => {
+const render = adminBarData => {
 	const { markup, scripts, styles } = adminBarData;
 	const template = document.createElement( 'template' );
 	template.innerHTML = markup + styles + scripts;
@@ -35,7 +35,7 @@ export const render = adminBarData => {
  * @param adminBarData object containing markup, scripts, and styles.
  * @return void
  */
-export const refresh = adminBarData => {
+const refresh = adminBarData => {
 	const adminBar = document.getElementById( 'wpadminbar' );
 
 	if ( adminBar ) {
