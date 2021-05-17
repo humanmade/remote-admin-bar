@@ -6,8 +6,9 @@
  * @return {Promise} Promise, which when fulfilled, resolves with markup, scripts, and styles.
  */
 const getAdminBar = async ( siteurl, context ) => {
+	const ajaxParams = new URLSearchParams( { ...context, action: 'admin_bar_render' } );
 	const response = await fetch(
-		`${siteurl}/wp-admin/admin-ajax.php?action=admin_bar_render`,
+		`${siteurl}/wp-admin/admin-ajax.php?${ajaxParams}`,
 		{ credentials: 'include' }
 	);
 
