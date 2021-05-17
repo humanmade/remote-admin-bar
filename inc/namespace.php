@@ -10,6 +10,8 @@ use WP_Screen;
  */
 function bootstrap() {
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
+	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie' );
+	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
 }
 
 /**
@@ -41,6 +43,37 @@ function admin_bar_render() {
 	rest_send_cors_headers( true );
 	wp_send_json( $admin_bar_data );
 	die();
+}
+
+/**
+ * Set a cookie to identify that the current user is logged in.
+ *
+ * We can't rely on WordPress's LOGGED_IN_COOKIE, which is HTTP-only.
+ */
+function set_js_cookie() {
+	setcookie(
+		'wp_remote_admin_bar',
+		1,
+		[
+			'domain'   => COOKIEDOMAIN,
+			'path'     => SITE_COOKIE_PATH,
+			'httponly' => false
+		] );
+}
+
+/**
+ * Clear the cookie used to identify logged in users.
+ */
+function clear_js_cookie() {
+	setcookie(
+		'wp_remote_admin_bar',
+		0,
+		[
+			'domain'  => COOKIEDOMAIN,
+			'path'    => SITE_COOKIE_PATH,
+			'expires' => time() - YEAR_IN_SECONDS,
+		]
+	);
 }
 
 /**
