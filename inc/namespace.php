@@ -3,6 +3,7 @@
 namespace HM\AdminBar;
 
 use WP_Admin_Bar;
+use WP_Screen;
 
 /**
  * Register the ajax endpoint for the remote admin bar.
@@ -16,9 +17,15 @@ function bootstrap() {
  *
  */
 function admin_bar_render() {
-	global $wp, $wp_admin_bar;
-	$wp->parse_request();
+	global $wp, $wp_admin_bar, $current_screen;
 
+	// Initialize query based on query string variables.
+	$wp->main( $_SERVER['QUERY_STRING'] ?? '' );
+
+	// Ensure that is_admin() returns false to register the correct menu nodes.
+	$current_screen = WP_Screen::get( 'front' );
+
+	// Set up the admin bar for the current view.
 	require_once ABSPATH . WPINC . '/class-wp-admin-bar.php';
 
 	$wp_admin_bar = new WP_Admin_Bar();
