@@ -1,5 +1,6 @@
 {
-  "name": "remote-admin-bar",
+  "name": "@humanmade/remote-admin-bar",
+  "public": true,
   "version": "0.0.1",
   "description": "Enables the WordPress admin bar for use on headless or decoupled sites .",
   "main": "dist/index.js",
@@ -12,7 +13,7 @@
     "type": "git",
     "url": "git+https://github.com/humanmade/remote-admin-bar.git"
   },
-  "author": "",
+  "author": "Human Made",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/humanmade/remote-admin-bar/issues"
