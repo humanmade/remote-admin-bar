@@ -1,0 +1,26 @@
+{
+  "name": "remote-admin-bar",
+  "version": "0.0.1",
+  "description": "Enables the WordPress admin bar for use on headless or decoupled sites .",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "npx babel src --out-dir dist",
+    "start": "npx babel src --watch --out-dir dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/humanmade/remote-admin-bar.git"
+  },
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/humanmade/remote-admin-bar/issues"
+  },
+  "homepage": "https://github.com/humanmade/remote-admin-bar#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.13.16",
+    "@babel/core": "^7.14.2",
+    "@babel/preset-env": "^7.14.2"
+  }
+}
