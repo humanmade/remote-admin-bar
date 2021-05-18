@@ -54,3 +54,10 @@ const refresh = adminBarData => {
 		adminBar.outerHTML = adminBarData.markup;
 	}
 };
+
+export {
+  isLoggedIn,
+  getAdminBar,
+  render,
+  refresh,
+};
