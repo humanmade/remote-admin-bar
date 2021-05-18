@@ -61,7 +61,7 @@ function set_js_cookie( $user_id, $user ) {
 	/**
 	 * Set the expiration time of the logged-in cookie to the same time as a user auth cookie.
 	 */
-	$expiration = time() + apply_filters( 'auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user->user_id, false );
+	$expiration = time() + apply_filters( 'auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user->user_id, true );
 
 	setcookie(
 		'wp_remote_admin_bar',
