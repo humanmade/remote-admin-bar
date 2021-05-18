@@ -16,7 +16,6 @@ function bootstrap() {
 
 /**
  * Return the HTML, scripts, and styles for the remote admin bar.
- *
  */
 function admin_bar_render() {
 	global $wp, $wp_admin_bar, $current_screen;
@@ -49,13 +48,23 @@ function admin_bar_render() {
  * Set a cookie to identify that the current user is logged in.
  *
  * We can't rely on WordPress's LOGGED_IN_COOKIE, which is HTTP-only.
+ *
+ * @param string  $user_login Username of current user.
+ * @param WP_User $user       Current user object.
  */
-function set_js_cookie() {
+function set_js_cookie( $user_id, $user ) {
+
+	/**
+	 * Set the expiration time of the logged-in cookie to the same time as a user auth cookie.
+	 */
+	$expiration = time() + apply_filters( 'auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user->user_id, false );
+
 	setcookie(
 		'wp_remote_admin_bar',
 		1,
 		[
 			'domain'   => COOKIEDOMAIN,
+			'expires'  => $expires,
 			'path'     => SITE_COOKIE_PATH,
 			'httponly' => false
 		] );
@@ -70,8 +79,8 @@ function clear_js_cookie() {
 		0,
 		[
 			'domain'  => COOKIEDOMAIN,
-			'path'    => SITE_COOKIE_PATH,
 			'expires' => time() - YEAR_IN_SECONDS,
+			'path'    => SITE_COOKIE_PATH,
 		]
 	);
 }
