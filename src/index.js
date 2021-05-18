@@ -1,4 +1,15 @@
 /**
+ * Check if the current user has the wp_remote_admin_bar cookie set.
+ *
+ * On sites where the front end is served from the same domain and path as the
+ * admin, this function can be used so that non-logged in users don't trigger
+ * origin requests to the admin-ajax endpoint.
+ *
+ * @return {Boolean} Whether the current user appears to be logged into the admin.
+ */
+const isLoggedIn = () => document.cookie.match( /^(.*;)?\s*wp_remote_admin_bar\s*=\s*[^;]+(.*)?$/ );
+
+/**
  * Retrieve the admin bar data for the current context.
  *
  * @param {string} siteurl Root URL for the current site.
@@ -42,4 +53,11 @@ const refresh = adminBarData => {
 	if ( adminBar ) {
 		adminBar.outerHTML = adminBarData.markup;
 	}
+};
+
+export {
+  isLoggedIn,
+  getAdminBar,
+  render,
+  refresh,
 };

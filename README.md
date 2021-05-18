@@ -15,6 +15,10 @@
 	</tr>
 </table>
 
+## Requirements
+
+Requires PHP >= 7.3.
+
 ## How to use this plugin
 
 Install the plugin in the WordPress project and activate it like any other plugin.

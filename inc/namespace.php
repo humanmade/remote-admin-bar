@@ -9,12 +9,17 @@ use WP_Screen;
  * Register the ajax endpoint for the remote admin bar.
  */
 function bootstrap() {
+
+	// Make sure cookie constants are defined when needed.
+	wp_cookie_constants();
+
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
+	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie', 10, 4 );
+	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
 }
 
 /**
  * Return the HTML, scripts, and styles for the remote admin bar.
- *
  */
 function admin_bar_render() {
 	global $wp, $wp_admin_bar, $current_screen;
@@ -41,6 +46,47 @@ function admin_bar_render() {
 	rest_send_cors_headers( true );
 	wp_send_json( $admin_bar_data );
 	die();
+}
+
+/**
+ * Set a cookie to identify that the current user is logged in.
+ *
+ * We can't rely on WordPress's LOGGED_IN_COOKIE, which is HTTP-only.
+ *
+ * @param string  $user_login Username of current user.
+ * @param WP_User $user       Current user object.
+ */
+function set_js_cookie( $user_id, $user ) {
+
+	/**
+	 * Set the expiration time of the logged-in cookie to the same time as a user auth cookie.
+	 */
+	$expiration = time() + apply_filters( 'auth_cookie_expiration', 14 * DAY_IN_SECONDS, $user->user_id, true );
+
+	setcookie(
+		'wp_remote_admin_bar',
+		1,
+		[
+			'domain'   => COOKIE_DOMAIN,
+			'expires'  => $expires,
+			'httponly' => false,
+			'path'     => COOKIEPATH,
+		] );
+}
+
+/**
+ * Clear the cookie used to identify logged in users.
+ */
+function clear_js_cookie() {
+	setcookie(
+		'wp_remote_admin_bar',
+		0,
+		[
+			'domain'  => COOKIE_DOMAIN,
+			'expires' => time() - YEAR_IN_SECONDS,
+			'path'    => COOKIEPATH,
+		]
+	);
 }
 
 /**
