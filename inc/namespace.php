@@ -9,8 +9,12 @@ use WP_Screen;
  * Register the ajax endpoint for the remote admin bar.
  */
 function bootstrap() {
+
+	// Make sure cookie constants are defined when needed.
+	wp_cookie_constants();
+
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
-	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie' );
+	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie', 10, 4 );
 	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
 }
 
@@ -63,9 +67,9 @@ function set_js_cookie( $user_id, $user ) {
 		'wp_remote_admin_bar',
 		1,
 		[
-			'domain'   => COOKIEDOMAIN,
+			'domain'   => COOKIE_DOMAIN,
 			'expires'  => $expires,
-			'path'     => SITE_COOKIE_PATH,
+			'path'     => COOKIEPATH,
 			'httponly' => false
 		] );
 }
@@ -78,9 +82,9 @@ function clear_js_cookie() {
 		'wp_remote_admin_bar',
 		0,
 		[
-			'domain'  => COOKIEDOMAIN,
+			'domain'  => COOKIE_DOMAIN,
 			'expires' => time() - YEAR_IN_SECONDS,
-			'path'    => SITE_COOKIE_PATH,
+			'path'    => COOKIEPATH,
 		]
 	);
 }
