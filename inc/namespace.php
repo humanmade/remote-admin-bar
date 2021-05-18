@@ -69,8 +69,8 @@ function set_js_cookie( $user_id, $user ) {
 		[
 			'domain'   => COOKIE_DOMAIN,
 			'expires'  => $expires,
+			'httponly' => false,
 			'path'     => COOKIEPATH,
-			'httponly' => false
 		] );
 }
 
