@@ -106,6 +106,15 @@ function get_markup() {
 	do_action_ref_array( 'admin_bar_menu', [ &$wp_admin_bar ] );
 
 	/**
+	 * Hook for ease of targeting admin menu nodes only when serving admin bar remotely.
+	 *
+	 * Use this to remove entries which don't make sense on headless sites, for example.
+	 *
+	 * @param WP_Admin_Bar GLobal admin bar object (passed by reference).
+	 */
+	do_action_ref_array( 'remote_admin_bar_menu', [ &$wp_admin_bar ] );
+
+	/**
 	 * Core hook for adding output before the admin bar is rendered.
 	 */
 	do_action( 'wp_before_admin_bar_render' );
