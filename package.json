@@ -1,7 +1,7 @@
 {
   "name": "@humanmade/remote-admin-bar",
   "public": true,
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Enables the WordPress admin bar for use on headless or decoupled sites .",
   "main": "dist/index.js",
   "scripts": {

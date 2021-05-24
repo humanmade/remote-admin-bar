@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.5
+- Remove usage of es-next syntax which was not transpiled to JS which worked in environments without regenerator runtime.
+
 ## 0.0.4
 - Add 'remote_admin_bar_menu' hook which can be used to add or remove menu nodes specifically in the remote context.
 

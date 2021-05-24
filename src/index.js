@@ -16,14 +16,12 @@ const isLoggedIn = () => document.cookie.match( /^(.*;)?\s*wp_remote_admin_bar\s
  * @param {object} context Current browsing context.
  * @return {Promise} Promise, which when fulfilled, resolves with markup, scripts, and styles.
  */
-const getAdminBar = async ( siteurl, context ) => {
+const getAdminBar = ( siteurl, context ) => {
 	const ajaxParams = new URLSearchParams( { ...context, action: 'admin_bar_render' } );
-	const response = await fetch(
+	return fetch(
 		`${siteurl}/wp-admin/admin-ajax.php?${ajaxParams}`,
 		{ credentials: 'include' }
-	);
-
-	return response.json();
+	).then( response => response.json() );
 };
 
 /**
