@@ -13,9 +13,24 @@ function bootstrap() {
 	// Make sure cookie constants are defined when needed.
 	wp_cookie_constants();
 
+	add_action( 'wp_ajax_nopriv_admin_bar_render', __NAMESPACE__ . '\\send_cors_preflight_headers' );
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
 	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie', 10, 4 );
 	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
+}
+
+/**
+ * Send proper CORS headers in response to unauthorized OPTIONS request.
+ *
+ * This is necessary to satisfy the CORS preflight request some browsers
+ * perform before sending credentials.
+ */
+function send_cors_preflight_headers() {
+	if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
+		rest_send_cors_headers();
+	}
+
+	die(0);
 }
 
 /**
