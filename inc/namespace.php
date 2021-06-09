@@ -68,7 +68,6 @@ function admin_bar_render() {
 		'styles' => get_styles(),
 	];
 
-	rest_send_cors_headers( true );
 	wp_send_json( $admin_bar_data );
 	die();
 }
