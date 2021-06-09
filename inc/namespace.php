@@ -13,24 +13,34 @@ function bootstrap() {
 	// Make sure cookie constants are defined when needed.
 	wp_cookie_constants();
 
-	add_action( 'wp_ajax_nopriv_admin_bar_render', __NAMESPACE__ . '\\send_cors_preflight_headers' );
+	add_filter( 'allowed_http_origin', __NAMESPACE__ . '\\allow_cross_origin_admin_bar_requests', 10, 2 );
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
 	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie', 10, 4 );
 	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
 }
 
 /**
- * Send proper CORS headers in response to unauthorized OPTIONS request.
+ * Allow cross-origin requests for the admin bar Ajax endpoint.
  *
  * This is necessary to satisfy the CORS preflight request some browsers
  * perform before sending credentials.
+ *
+ * @param string $allowed_origin WP-sanitized "allowed origin" value.
+ * @param string $origin         The actual HTTP origin header.
+ * @return string Updated allowed origin response.
  */
-function send_cors_preflight_headers() {
-	if ( $_SERVER['REQUEST_METHOD'] === 'OPTIONS' ) {
-		rest_send_cors_headers();
+function allow_cross_origin_admin_bar_requests( $allowed_origin, $origin ) {
+	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		return $allowed_origin;
 	}
 
-	die(0);
+	$ajax_action = $_GET['action'] ?? '';
+
+	if ( $ajax_action === 'admin_bar_render' ) {
+		$allowed_origin = $origin;
+	}
+
+	return $allowed_origin;
 }
 
 /**
