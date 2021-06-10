@@ -5,7 +5,7 @@
   "description": "Enables the WordPress admin bar for use on headless or decoupled sites .",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx babel src --out-dir dist",
+    "build": "npx babel src --out-dir dist --no-comments",
     "start": "npx babel src --watch --out-dir dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
