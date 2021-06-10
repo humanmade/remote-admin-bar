@@ -13,9 +13,32 @@ function bootstrap() {
 	// Make sure cookie constants are defined when needed.
 	wp_cookie_constants();
 
+	add_filter( 'allowed_http_origin', __NAMESPACE__ . '\\allow_cross_origin_admin_bar_requests', 10, 2 );
 	add_action( 'wp_ajax_admin_bar_render', __NAMESPACE__ . '\\admin_bar_render' );
 	add_action( 'wp_login', __NAMESPACE__ . '\\set_js_cookie', 10, 4 );
 	add_action( 'wp_logout', __NAMESPACE__ . '\\clear_js_cookie' );
+}
+
+/**
+ * Allow cross-origin requests for the admin bar Ajax endpoint.
+ *
+ * This is necessary to satisfy the CORS preflight request some browsers
+ * perform before sending credentials.
+ *
+ * @param string $allowed_origin WP-sanitized "allowed origin" value.
+ * @param string $origin         The actual HTTP origin header.
+ * @return string Updated allowed origin response.
+ */
+function allow_cross_origin_admin_bar_requests( $allowed_origin, $origin ) {
+	if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
+		return $allowed_origin;
+	}
+
+	if ( ! empty( $_GET['action'] ) && $_GET['action'] === 'admin_bar_render' ) {
+		$allowed_origin = $origin;
+	}
+
+	return $allowed_origin;
 }
 
 /**
@@ -43,7 +66,6 @@ function admin_bar_render() {
 		'styles' => get_styles(),
 	];
 
-	rest_send_cors_headers( true );
 	wp_send_json( $admin_bar_data );
 	die();
 }
