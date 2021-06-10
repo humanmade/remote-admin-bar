@@ -34,9 +34,7 @@ function allow_cross_origin_admin_bar_requests( $allowed_origin, $origin ) {
 		return $allowed_origin;
 	}
 
-	$ajax_action = $_GET['action'] ?? '';
-
-	if ( $ajax_action === 'admin_bar_render' ) {
+	if ( ! empty( $_GET['action'] ) && $_GET['action'] === 'admin_bar_render' ) {
 		$allowed_origin = $origin;
 	}
 
