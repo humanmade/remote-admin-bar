@@ -12,6 +12,8 @@ const isLoggedIn = () => document.cookie.match( /^(.*;)?\s*wp_remote_admin_bar\s
 /**
  * Retrieve the admin bar data for the current context.
  *
+ * In case of authentication failre, returns a rejected Promise object.
+ *
  * @param {string} siteurl Root URL for the current site.
  * @param {object} context Current browsing context.
  * @return {Promise} Promise, which when fulfilled, resolves with markup, scripts, and styles.
@@ -21,7 +23,10 @@ const getAdminBar = ( siteurl, context ) => {
 	return fetch(
 		`${siteurl}/wp-admin/admin-ajax.php?${ajaxParams}`,
 		{ credentials: 'include' }
-	).then( response => response.json() );
+	).then( response => {
+		const responseJSON = response.json();
+		return ( response.ok ) ? responseJSON : responseJSON.then( Promise.reject.bind( Promise ) );
+	} );
 };
 
 /**
