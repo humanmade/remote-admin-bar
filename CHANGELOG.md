@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.0.7
+- Update `glob-parent` package to resolve npm dependency vulnerability warnings.
+
 ## 0.0.6
 - Fix CORS headers for admin bar preflight check. Allows the plugin to work in recent versions of Chrome.
 - Handle unauthorized requests with a rejected promise, so that the front end doesn't apply the admin-bar class to the body if the user is not logged in.
