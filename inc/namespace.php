@@ -90,7 +90,7 @@ function set_js_cookie( $user_id, $user ) {
 		1,
 		[
 			'domain'   => COOKIE_DOMAIN,
-			'expires'  => $expires,
+			'expires'  => $expiration,
 			'httponly' => false,
 			'path'     => COOKIEPATH,
 		] );
