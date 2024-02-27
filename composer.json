@@ -1,0 +1,11 @@
+{
+  "name": "humanmade/remote-admin-bar",
+  "description": "Enables the WordPress admin bar for use on headless or decoupled sites",
+  "type": "wordpress-plugin",
+  "authors": [
+      {
+          "name": "Human Made",
+          "email": "hello@humanmade.com"
+      }
+  ]
+}
