@@ -7,6 +7,5 @@
           "name": "Human Made",
           "email": "hello@humanmade.com"
       }
-  ],
-  "minimum-stability": "dev"
+  ]
 }
